@@ -1,24 +1,18 @@
 import TodoItem from "../todoItem/TodoItem";
-import React from "react";
 import {
   RootState,
   TodoModel,
-  WorkspaceModel,
 } from "../../../services/redux/types";
+import { Grid } from "@mui/material";
 import {
   toggleTodo,
   removeItem,
-  FILTER_ACTIVE,
-  FILTER_ALL,
-  FILTER_COMPLETE,
 } from "../../../services/redux/actions";
 import { connect } from "react-redux";
-import { Box } from "@mui/material";
 
 const mapStateToProps = (state: RootState) => {
   return {
     todoItems: state.todo,
-    workspaces: state.workspace,
   };
 };
 
@@ -27,52 +21,29 @@ const mapDispatchToProps = {
   removeItem,
 };
 
-const getVisibleTodos = (todos: TodoModel[], filter: string): TodoModel[] => {
-  switch (filter) {
-    case FILTER_ALL: {
-      return todos.sort(
-        (a: TodoModel, b: TodoModel) =>
-          Number(a.completed) - Number(b.completed)
-      );
-    }
-    case FILTER_ACTIVE: {
-      return todos.filter((c: TodoModel) => !c.completed);
-    }
-    case FILTER_COMPLETE: {
-      return todos.filter((c: TodoModel) => c.completed);
-    }
-    default:
-      return todos;
-  }
-};
-
-const getWorkspaceTodos = (
-  todos: TodoModel[],
-  workspaceId: number
-): TodoModel[] => {
-  return todos.filter((x: TodoModel) => x.workspaceId === workspaceId);
-};
-
 export const TodoList = ({
   todoItems,
   toggleTodo,
   removeItem,
-  workspaces,
-  workspaceId,
 }: {
   todoItems: TodoModel[];
-  toggleTodo: (id: number) => void;
-  removeItem: (id: number) => void;
-  workspaces: WorkspaceModel[];
-  workspaceId: number;
+  toggleTodo: (id: string) => void;
+  removeItem: (id: string) => void;
 }) => {
-  const todos = getVisibleTodos(
-    getWorkspaceTodos(todoItems, workspaceId),
-    workspaces.find((x) => x.id === workspaceId)?.filter ?? FILTER_ALL
-  ).map((x: TodoModel) => (
+  const todos = todoItems.map((x: TodoModel) => (
     <TodoItem key={x.id} onDelete={removeItem} onToggle={toggleTodo} todo={x} />
   ));
-  return <Box sx={{ height: 380, m: 1, p: 1, overflowY: "auto" }}>{todos}</Box>;
+  return <Grid
+    container
+    xs={8}
+    lg={8}
+    md={8}
+    sm={8}
+    sx={{
+      mr: 2,
+      mb: 2,
+    }}
+  >{todos}</Grid>;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

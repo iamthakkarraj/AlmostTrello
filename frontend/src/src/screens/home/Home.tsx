@@ -2,7 +2,7 @@ import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
 import ActionBar from "../../components/actionBar/ActionBar";
 import Header from "../../components/header/Header";
-import WorkspaceContainer from "../../components/workspace/workspaceContainer/WorkspaceContainer";
+import TodoContainer from "../../components/todoContainer/todoContainer";
 
 const Home = () => {
   const [mode, setMode] = React.useState<"light" | "dark">("light");
@@ -30,7 +30,7 @@ const Home = () => {
       <CssBaseline />
       <Header toggleColor={colorMode.toggleColorMode} />
       <ActionBar />
-      <WorkspaceContainer></WorkspaceContainer>
+      <TodoContainer></TodoContainer>
     </ThemeProvider>
   );
 };

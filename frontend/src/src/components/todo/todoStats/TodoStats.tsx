@@ -14,26 +14,26 @@ const mapStateToProps = (state: RootState) => {
   };
 };
 
-const getStats = (todoItems: TodoModel[], workspaceId: number) => {
-  const todos = todoItems.filter((x) => x.workspaceId === workspaceId);
+const getStats = (todoItems: TodoModel[]) => {
+  const todos = todoItems;
   const completedCount = todos.filter((x) => x.completed).length;
   const inProgressCount = todos.filter((x) => !x.completed).length;
   return {
     inProgress: {
       count: inProgressCount,
-      percentage: (inProgressCount / todos.length) * 100,
+      percentage: todos.length > 0 ? (inProgressCount / todos.length) * 100 : 0,
       label: TEXT_TODO_STAT_INPROGRESS,
       color: 'error.main'
     },
     completed: {
       count: completedCount,
-      percentage: (completedCount / todos.length) * 100,
+      percentage: todos.length > 0 ? (completedCount / todos.length) * 100 : 0,
       label: TEXT_TODO_STAT_COMPLETED,
       color: 'success.main'
     },
     total: {
       count: todos.length,
-      percentage: 100,
+      percentage: todos.length > 0 ? 100 : 0,
       label: TEXT_TODO_STAT_TOTAL,
       color: 'primary'
     },
@@ -42,14 +42,12 @@ const getStats = (todoItems: TodoModel[], workspaceId: number) => {
 
 const TodoStats = ({
   todoItems,
-  workspaceId,
 }: {
   todoItems: TodoModel[];
-  workspaceId: number;
 }) => {
-  const stats = getStats(todoItems, workspaceId);
+  const stats = getStats(todoItems);
   return (
-    <Box sx={{ mx: 2, mt: 2, display: "flex", justifyContent: "center" }}>
+    <Box sx={{ display: "flex", justifyContent: "start" }}>
       <TodoProgressWithLabel {...stats.inProgress} />
       <TodoProgressWithLabel {...stats.completed} />
       <TodoProgressWithLabel {...stats.total} />

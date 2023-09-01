@@ -1,21 +1,16 @@
 import { combineReducers } from "redux";
+import { v4 as uuid } from 'uuid';
 import {
   ADD_ITEM,
-  ADD_WORKSPACE,
-  FILTER_ALL,
   REMOVE_ITEM,
-  REMOVE_WORKSPACE,
-  SET_WORKSPACE_FILTER,
-
   TOGGLE_TODO,
 } from "./actions";
 import {
-
   TodoActionTypes,
   TodoModel,
-  WorkspaceActionType,
-  WorkspaceModel,
 } from "./types";
+import { useId } from "react";
+import todoService from '../todo/todoService';
 
 const todoReducer = (
   state: TodoModel[] = [],
@@ -26,11 +21,11 @@ const todoReducer = (
       return [
         ...state,
         {
-          id: Date.now(),
-          text: action.text,
+          id: uuid(),
+          title: action.title,
+          description: action.description,
+          dueDate: action.dueDate,
           completed: false,
-          createdDate: new Date(),
-          workspaceId: action.workspaceId,
         },
       ];
     case REMOVE_ITEM:
@@ -47,37 +42,8 @@ const todoReducer = (
   }
 };
 
-const workspaceReducer = (
-  state: WorkspaceModel[] = [],
-  action: WorkspaceActionType
-): WorkspaceModel[] => {
-  switch (action.type) {
-    case ADD_WORKSPACE:
-      return [
-        ...state,
-        {
-          id: Date.now(),
-          title: action.title,
-          filter: FILTER_ALL,
-        },
-      ];
-    case REMOVE_WORKSPACE:
-      return [...state.filter((item) => item.id !== action.id)];
-    case SET_WORKSPACE_FILTER:
-      const workspace =
-        state.find((item) => item.id === action.workspaceId) ??
-        ({} as WorkspaceModel);
-      workspace.filter = action.value;
-      return [...state];
-    default: {
-      return state;
-    }
-  }
-};
-
 const rootReducer = combineReducers({
   todo: todoReducer,
-  workspace: workspaceReducer,
 });
 
-export { rootReducer, todoReducer, workspaceReducer };
+export { rootReducer, todoReducer };

@@ -12,7 +12,7 @@ const TodoProgressWithLabel = ({
   color: string;
 }) => {
   return (
-    <Box sx={{ display: "flex", px: 1, flexDirection: "column" }}>
+    <Box sx={{ display: "flex", pr: 2, flexDirection: "column", pb:2 }}>
       <Box
         bgcolor={useTheme().palette.mode === "light" ? "grey.100" : "grey.800"}
         sx={{
