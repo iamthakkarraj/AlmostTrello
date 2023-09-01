@@ -1,4 +1,5 @@
-﻿using AlmostTrello.Utilities.Helpers;
+﻿using AlmostTrello.Utilities.Constants;
+using AlmostTrello.Utilities.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -20,8 +21,9 @@ namespace APIGateway.Middlewares
         }
 
         public async Task Invoke(HttpContext httpContext)
-        {
-            if (httpContext != null && httpContext.Request.Path != "/swagger/index.html")
+        {   
+            if (httpContext != null 
+                && !Constants.SkipUrls.Any(x => x.Equals(httpContext.Request.Path, StringComparison.OrdinalIgnoreCase)))
             {
                 var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
                 if (!string.IsNullOrEmpty(token))

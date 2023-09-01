@@ -25,8 +25,8 @@ namespace AlmostTrello.BusinessLogic.Implementations
         #region Service Methods 
         public async Task<bool> Authenticate(AuthenticationViewModel authenticationViewModel)
         {
-
             var user = await _userRepository.Get(authenticationViewModel.Email);
+            if (user == null) return false;
             return EncryptionHelpers.Verify(authenticationViewModel.Password, user.Password);
         }
 

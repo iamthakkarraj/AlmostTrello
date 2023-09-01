@@ -36,6 +36,11 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.MapWhen(context => !context.Request.Path.StartsWithSegments("/api/Users"), appBuilder =>
+{
+    app.UseAuthorizationMiddleware();
+});
+
 app.UseAuthorizationMiddleware();
 
 app.UseAuthorization();

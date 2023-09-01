@@ -14,5 +14,11 @@ namespace AlmostTrello.Utilities.Constants
         public const string invalidCredentials = "EmailId or password is incorrect";
         #endregion
 
+        public static readonly string[] SkipUrls = { 
+            "/swagger/index.html", 
+            "/api/Users/authenticate",
+            "/api/Users/register"
+        };
+
     }
 }

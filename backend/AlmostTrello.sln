@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmostTrello.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmostTrello.Utilities", "src\AlmostTrello.Utilities\AlmostTrello.Utilities.csproj", "{09C71AEF-D7DC-44FA-B8D1-87AD7C1F9E78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmostTrello.API.Tests", "tests\AlmostTrello.API.Tests\AlmostTrello.API.Tests.csproj", "{BDE4E115-6653-4130-9FC7-2B56ED7C885C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{09C71AEF-D7DC-44FA-B8D1-87AD7C1F9E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09C71AEF-D7DC-44FA-B8D1-87AD7C1F9E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09C71AEF-D7DC-44FA-B8D1-87AD7C1F9E78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDE4E115-6653-4130-9FC7-2B56ED7C885C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE4E115-6653-4130-9FC7-2B56ED7C885C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE4E115-6653-4130-9FC7-2B56ED7C885C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE4E115-6653-4130-9FC7-2B56ED7C885C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{DBAF6B2A-E502-4CE2-AD0F-02E2516AA397} = {59454A6B-96C9-44B4-999A-911D5EE49742}
 		{469DAF06-FFF8-4973-83A4-767343CDF78A} = {59454A6B-96C9-44B4-999A-911D5EE49742}
 		{09C71AEF-D7DC-44FA-B8D1-87AD7C1F9E78} = {59454A6B-96C9-44B4-999A-911D5EE49742}
+		{BDE4E115-6653-4130-9FC7-2B56ED7C885C} = {EC6F641D-4453-46ED-82F3-7BCE0188FBF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B76C86FA-6E73-490A-8CC2-97C1590A102A}
