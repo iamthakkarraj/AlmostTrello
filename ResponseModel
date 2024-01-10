@@ -1,0 +1,240 @@
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+using System.Net;
+
+namespace EventBus.Common.Models {
+
+  /// <summary>
+  /// API response model with additional properties for status code.
+  /// </summary>
+  /// <typeparam name="T">Type of data in the response.</typeparam>
+  public class ApiResponse<T> : BaseResponse<T> {
+
+    /// <summary>
+    /// Default constructor for the API response.
+    /// </summary>
+    public ApiResponse() {
+    }
+
+    /// <summary>
+    /// Constructor for the API response with data, message, and status code.
+    /// </summary>
+    /// <param name="data">The data in the response.</param>
+    /// <param name="message">The message in the response.</param>
+    /// <param name="statusCode">The HTTP status code for the response.</param>
+    public ApiResponse(T data, string message, HttpStatusCode statusCode = HttpStatusCode.OK)
+        : base(data) {
+      Message = message;
+      StatusCode = statusCode;
+    }
+
+    /// <summary>
+    /// Constructor for the API response with an error and status code.
+    /// </summary>
+    /// <param name="error">The error in the response.</param>
+    /// <param name="statusCode">The HTTP status code for the response.</param>
+    public ApiResponse(Error error, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+        : base(error) {
+      StatusCode = statusCode;
+    }
+
+    /// <summary>
+    /// Gets or sets the message in the response.
+    /// </summary>
+    public string Message { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the HTTP status code for the response.
+    /// </summary>
+    public HttpStatusCode StatusCode { get; set; }
+
+    /// <summary>
+    /// Helper method to create a bad request response (400 Bad Request).
+    /// </summary>
+    /// <param name="error">The error in the response.</param>
+    /// <returns>A bad request API response.</returns>
+    public static ApiResponse<T> BadRequest(Error error) {
+      return new ApiResponse<T> {
+        Error = error,
+        StatusCode = HttpStatusCode.BadRequest
+      };
+    }
+
+    /// <summary>
+    /// Helper method to create an internal server error response (500 Internal Server Error).
+    /// </summary>
+    /// <param name="error">The error in the response.</param>
+    /// <returns>An internal server error API response.</returns>
+    public static ApiResponse<T> InternalServerError(Error error) {
+      return new ApiResponse<T> {
+        Error = error,
+        StatusCode = HttpStatusCode.InternalServerError
+      };
+    }
+
+    /// <summary>
+    /// Helper method to create a response with no content (204 No Content).
+    /// </summary>
+    /// <param name="message">The message in the response.</param>
+    /// <returns>A no content API response.</returns>
+    public static ApiResponse<T> NoContent(string message = "") {
+      return new ApiResponse<T> {
+        Message = message,
+        StatusCode = HttpStatusCode.NoContent
+      };
+    }
+
+    /// <summary>
+    /// Helper method to create a not found response (404 Not Found).
+    /// </summary>
+    /// <param name="error">The error in the response.</param>
+    /// <returns>A not found API response.</returns>
+    public static ApiResponse<T> NotFound(Error error) {
+      return new ApiResponse<T> {
+        Error = error,
+        StatusCode = HttpStatusCode.NotFound
+      };
+    }
+
+    /// <summary>
+    /// Helper method to create a successful response (200 OK).
+    /// </summary>
+    /// <param name="data">The data in the response.</param>
+    /// <param name="message">The message in the response.</param>
+    /// <returns>A successful API response.</returns>
+    public static ApiResponse<T> Ok(T data, string message = "") {
+      return new ApiResponse<T> {
+        Data = data,
+        Message = message,
+        StatusCode = HttpStatusCode.OK
+      };
+    }
+
+    /// <summary>
+    /// Helper method to create an unauthorized response (401 Unauthorized).
+    /// </summary>
+    /// <param name="error">The error in the response.</param>
+    /// <returns>An unauthorized API response.</returns>
+    public static ApiResponse<T> Unauthorized(Error error) {
+      return new ApiResponse<T> {
+        Error = error,
+        StatusCode = HttpStatusCode.Unauthorized
+      };
+    }
+  }
+
+  /// <summary>
+  /// Base class for response model.
+  /// </summary>
+  /// <typeparam name="T">Type of data in the response.</typeparam>
+  public abstract class BaseResponse<T> {
+
+    /// <summary>
+    /// Default constructor for the base response.
+    /// </summary>
+    protected BaseResponse() {
+    }
+
+    /// <summary>
+    /// Constructor with data for the base response.
+    /// </summary>
+    /// <param name="data">The data in the response.</param>
+    protected BaseResponse(T data) {
+      Data = data;
+    }
+
+    /// <summary>
+    /// Constructor with error for the base response.
+    /// </summary>
+    /// <param name="error">The error in the response.</param>
+    protected BaseResponse(Error error) {
+      Error = error;
+    }
+
+    /// <summary>
+    /// Gets or sets the data in the response.
+    /// </summary>
+    public T? Data { get; set; }
+
+    /// <summary>
+    /// Gets or sets the error in the response.
+    /// </summary>
+    public Error Error { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the response has errors.
+    /// </summary
+    public bool HasErrors => Error != null;
+  }
+
+  /// <summary>
+  /// Error model for API responses.
+  /// </summary>
+  public class Error {
+
+    public Error(string message) {
+      Message = message;
+      Code = "UNKOWN";
+    }
+
+    public Error(string message, string code) {
+      Message = message;
+      Code = code;
+    }
+
+    /// <summary>
+    /// Gets or sets the error code.
+    /// </summary>
+    public string Code { get; set; }
+
+    /// <summary>
+    /// Gets or sets the error message.
+    /// </summary>
+    public string Message { get; set; }
+  }
+
+  /// <summary>
+  /// Service response model.
+  /// </summary>
+  /// <typeparam name="T">Type of data in the response.</typeparam>
+  public class Response<T> : BaseResponse<T> {
+
+    /// <summary>
+    /// Default constructor for the service response.
+    /// </summary>
+    public Response() {
+    }
+
+    /// <summary>
+    /// Constructor for the service response with data.
+    /// </summary>
+    /// <param name="data">The data in the response.</param>
+    public Response(T data)
+        : base(data) {
+    }
+
+    /// <summary>
+    /// Constructor for the service response with an error.
+    /// </summary>
+    /// <param name="error">The error in the response.</param>
+    public Response(Error error)
+        : base(error) {
+    }
+
+    public static async Task<Response<T>> HandleAsync(Func<Task<T?>> operation) {
+      try {
+        T? result = await operation.Invoke();
+        if (result != null) {
+          return new Response<T>(result!);
+        } else {
+#pragma warning disable S112 // General or reserved exceptions should never be thrown
+          throw new Exception(message: "Requested data could not be found");
+#pragma warning restore S112 // General or reserved exceptions should never be thrown
+        }
+      } catch (Exception ex) {
+        return new Response<T>(new Error($"operation failed: {ex.Message}"));
+      }
+    }
+  }
+}
